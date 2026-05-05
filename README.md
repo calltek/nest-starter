@@ -1,6 +1,6 @@
-# Kujira — Backend (`kuj-backend`)
+# NestJS Starter
 
-Plano de control de la plataforma Kujira: orquestación de agentes Claude desplegados en VPS, multi-tenant y multi-organización con RBAC.
+Starter de backend con NestJS: estructura modular lista para construir APIs multi-tenant con RBAC.
 
 > Stack: **NestJS + TypeScript · PostgreSQL 16 + Prisma · Redis · BullMQ · WebSockets**.
 > Patrones, naming y estructura heredados de `vcs-backend`.
@@ -64,4 +64,3 @@ src/
 └── main.ts
 ```
 
-Ver `CLAUDE.md` (raíz) para la documentación funcional y de decisiones.

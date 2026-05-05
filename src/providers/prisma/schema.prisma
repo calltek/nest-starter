@@ -1,4 +1,4 @@
-// Kujira — Prisma schema
+// Prisma schema
 //
 // Models live module by module: when you create the agent module, you add
 // the Agent model here. For now empty — only the datasource and generator
