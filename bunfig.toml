@@ -1,0 +1,23 @@
+# Bun runtime + package manager config
+
+[install]
+# Lockfile en texto (versionable, mejor diff)
+saveTextLockfile = true
+# Comportamiento estricto: falla si package.json/lockfile están desincronizados en CI
+frozenLockfile = false
+# Resolver peerDependencies automáticamente
+peer = true
+
+[install.cache]
+# node_modules-compatible: necesario para que Nest CLI, Prisma, etc encuentren binarios
+disable = false
+
+[run]
+# Mostrar el comando ejecutado por scripts (estilo `npm run`)
+silent = false
+
+[test]
+# Glob para detectar specs (compatible con la convención Jest *.spec.ts)
+preload = []
+coverage = false
+coverageThreshold = 0

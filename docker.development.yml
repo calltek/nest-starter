@@ -1,0 +1,28 @@
+# Local development services (Postgres + Redis).
+# The app itself runs on host (`bun run dev`), not in Docker.
+#
+# Usage:  bun run docker:dev   (== `docker compose -f docker.development.yml up -d`)
+# Project name is taken from $COMPOSE_PROJECT_NAME in .env, fallback to "app".
+
+services:
+    db:
+        container_name: ${COMPOSE_PROJECT_NAME:-app}_postgres
+        restart: unless-stopped
+        image: postgres:16-alpine
+        ports:
+            - '${DB_PORT}:5432'
+        volumes:
+            - db_volume:/var/lib/postgresql/data
+        environment:
+            - POSTGRES_PASSWORD=${DB_PASSWORD}
+            - POSTGRES_DB=${DB_NAME}
+
+    redis:
+        container_name: ${COMPOSE_PROJECT_NAME:-app}_redis
+        restart: unless-stopped
+        image: redis:alpine
+        ports:
+            - '${REDIS_PORT}:6379'
+
+volumes:
+    db_volume:

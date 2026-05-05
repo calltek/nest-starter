@@ -1,0 +1,43 @@
+# Production stack: app + Postgres + Redis. Designed for Dokploy / Traefik.
+#
+# - The `app` service builds the Dockerfile in repo root.
+# - Postgres exposes only on 127.0.0.1 (Traefik fronts the API, not the DB).
+# - Set Traefik labels via $DOMAIN at deploy time.
+
+services:
+    app:
+        container_name: ${COMPOSE_PROJECT_NAME:-app}_api
+        restart: unless-stopped
+        build: .
+        depends_on:
+            - db
+            - redis
+        env_file: .env
+        pull_policy: build
+        labels:
+            traefik.enable: 'true'
+            traefik.http.routers.${COMPOSE_PROJECT_NAME:-app}.rule: 'Host(`${DOMAIN}`)'
+            traefik.http.routers.${COMPOSE_PROJECT_NAME:-app}.entrypoints: 'web'
+            traefik.http.services.${COMPOSE_PROJECT_NAME:-app}.loadbalancer.server.port: '${PORT}'
+
+    db:
+        container_name: ${COMPOSE_PROJECT_NAME:-app}_postgres
+        restart: unless-stopped
+        image: postgres:16-alpine
+        ports:
+            - '127.0.0.1:${DB_PORT}:5432'
+        volumes:
+            - postgres_data:/var/lib/postgresql/data
+        environment:
+            - POSTGRES_PASSWORD=${DB_PASSWORD}
+            - POSTGRES_DB=${DB_NAME}
+        env_file: .env
+
+    redis:
+        container_name: ${COMPOSE_PROJECT_NAME:-app}_redis
+        restart: unless-stopped
+        image: redis:alpine
+        env_file: .env
+
+volumes:
+    postgres_data:

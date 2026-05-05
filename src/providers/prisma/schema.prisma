@@ -1,0 +1,20 @@
+// Kujira — Prisma schema
+//
+// Models live module by module: when you create the agent module, you add
+// the Agent model here. For now empty — only the datasource and generator
+// scaffolding so `prisma generate` works.
+//
+// See https://pris.ly/d/prisma-schema
+//
+// Prisma 7 split the datasource URL out of the schema into `prisma.config.ts`.
+// `previewFeatures` is still required for `extensions = [pgcrypto]`.
+
+generator client {
+    provider        = "prisma-client-js"
+    previewFeatures = ["postgresqlExtensions"]
+}
+
+datasource db {
+    provider   = "postgresql"
+    extensions = [pgcrypto]
+}
