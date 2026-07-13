@@ -1,19 +1,14 @@
 import * as Sentry from '@sentry/nestjs'
-import { nodeProfilingIntegration } from '@sentry/profiling-node'
 
 // Ensure to call this before requiring any other modules!
+// NOTE: no usamos @sentry/profiling-node — es un addon NAPI que crashea bajo Bun (uv_default_loop).
 Sentry.init({
     dsn: process.env.SENTRY_DSN,
 
-    integrations: [
-        nodeProfilingIntegration(),
-        Sentry.httpIntegration(),
-        Sentry.requestDataIntegration(),
-    ],
+    integrations: [Sentry.httpIntegration(), Sentry.requestDataIntegration()],
 
     tracesSampleRate: process.env.NODE_ENV === 'production' ? 0.1 : 1.0,
 
-    profilesSampleRate: 1.0,
     defaultIntegrations: false,
 
     normalizeDepth: 6,

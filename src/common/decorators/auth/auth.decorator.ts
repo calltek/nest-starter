@@ -14,14 +14,12 @@ export const CurrentUser = createParamDecorator(
     }
 )
 
-export const HasPermission = createParamDecorator(
-    (required: Permission, ctx: ExecutionContext) => {
-        const request = ctx.switchToHttp().getRequest()
-        const user: UserSession | null = request.user
+export const HasPermission = createParamDecorator((required: Permission, ctx: ExecutionContext) => {
+    const request = ctx.switchToHttp().getRequest()
+    const user: UserSession | null = request.user
 
-        if (!user) return false
+    if (!user) return false
 
-        const role = user.org_role || user.role
-        return hasPermission(getRolePermissions(role), required)
-    }
-)
+    const role = user.org_role || user.role
+    return hasPermission(getRolePermissions(role), required)
+})

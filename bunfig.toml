@@ -17,7 +17,5 @@ disable = false
 silent = false
 
 [test]
-# Glob para detectar specs (compatible con la convención Jest *.spec.ts)
-preload = []
 coverage = false
 coverageThreshold = 0

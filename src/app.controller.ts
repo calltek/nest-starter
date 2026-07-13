@@ -1,5 +1,5 @@
 import { NSEndpointProperty } from '@/common/decorators'
-import { NSRequest } from '@/common/types'
+import type { NSRequest } from '@/common/types'
 import { Controller, Get, Logger, Req } from '@nestjs/common'
 import { ApiTags } from '@nestjs/swagger'
 

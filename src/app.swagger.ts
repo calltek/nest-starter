@@ -14,5 +14,10 @@ export const initSwagger = (app: INestApplication) => {
         .setVersion(process.env.npm_package_version || '0.1.0')
         .build()
     const document = SwaggerModule.createDocument(app, swaggerConfig)
+
+    // Dump para codegen de clientes (gitignored)
     fs.writeFileSync('./swagger.json', JSON.stringify(document))
+
+    // UI interactiva en /docs, spec JSON en /swagger
+    SwaggerModule.setup('docs', app, document, { jsonDocumentUrl: 'swagger' })
 }

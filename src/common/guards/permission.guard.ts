@@ -9,12 +9,7 @@ import { ConfigService } from '@nestjs/config'
 import { Reflector } from '@nestjs/core'
 import { JwtService } from '@nestjs/jwt'
 import { PERMISSION_METADATA_KEY } from '@/common/decorators/auth/permission.decorator'
-import {
-    Permission,
-    UserRole,
-    getRolePermissions,
-    hasPermission,
-} from '@/common/schema'
+import { Permission, UserRole, getRolePermissions, hasPermission } from '@/common/schema'
 
 @Injectable()
 export class PermissionGuard implements CanActivate {

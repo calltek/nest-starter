@@ -2,12 +2,12 @@
 
 Starter de backend con NestJS: estructura modular lista para construir APIs multi-tenant con RBAC.
 
-> Stack: **NestJS + TypeScript · PostgreSQL 16 + Prisma · Redis · BullMQ · WebSockets**.
+> Stack: **NestJS + TypeScript · PostgreSQL 16 + Prisma · Redis**.
 > Patrones, naming y estructura heredados de `vcs-backend`.
 
 ## Requisitos
 
-- [Bun](https://bun.com) 1.1+
+- [Bun](https://bun.com) 1.3+
 - Docker (para Postgres + Redis locales)
 
 ## Quickstart
@@ -35,6 +35,7 @@ Una vez arrancado:
 
 - API: `http://localhost:5050`
 - Healthcheck: `GET /ping`
+- Swagger UI: `GET /docs`
 - Swagger JSON: `GET /swagger`
 
 ## Scripts
@@ -49,6 +50,18 @@ Una vez arrancado:
 | `bun run lint` | Biome check con autofix |
 | `bun run test` | Tests unitarios (bun test) |
 
+## Tests
+
+Los tests viven en `test/` (convención `*.spec.ts`) y corren con `bun test` — sin Jest ni configuración extra. Los specs importan el código de `src/` directamente vía el alias `@/`.
+
+```bash
+bun run test        # una pasada
+bun run test:watch  # watch mode
+bun run test:cov    # con coverage
+```
+
+> Nota: en ficheros con decoradores, importa las interfaces con `import type` — Bun conserva los imports de valor cuando hay `emitDecoratorMetadata` y un tipo inexistente en runtime rompe la carga del módulo.
+
 ## Estructura
 
 ```
@@ -62,5 +75,11 @@ src/
 ├── app.controller.ts
 ├── app.swagger.ts
 └── main.ts
+test/                  specs (bun test)
 ```
+
+## Notas sobre Bun
+
+- El lockfile (`bun.lock`) está versionado — el build de Docker usa `--frozen-lockfile`.
+- No uses `@sentry/profiling-node` ni otros addons NAPI que dependan de libuv (`uv_default_loop`): crashean bajo Bun. Sentry (errores + tracing) funciona sin el profiler.
 

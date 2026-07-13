@@ -10,8 +10,7 @@ import { AppModule } from './app.module'
 import { initSwagger } from './app.swagger'
 import { Logger } from 'nestjs-pino'
 import cors from 'cors'
-import { urlencoded, json, static as st } from 'express'
-import * as path from 'path'
+import { urlencoded, json } from 'express'
 
 let app: INestApplication
 
@@ -46,14 +45,9 @@ async function bootstrap() {
     app.use(
         cors({
             credentials: true,
-            origin: [
-                ...(frontendUrl ? [frontendUrl] : []),
-                /^http:\/\/localhost(:\d+)?$/,
-            ],
+            origin: [...(frontendUrl ? [frontendUrl] : []), /^http:\/\/localhost(:\d+)?$/],
         })
     )
-
-    app.use('/swagger', st(path.join(__dirname, '../swagger.json')))
 
     await app
         .listen(port)
